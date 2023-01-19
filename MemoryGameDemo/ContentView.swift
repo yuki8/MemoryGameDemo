@@ -9,15 +9,35 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+                CardView().aspectRatio(2/3, contentMode: .fit)
+            }
         }
+        .foregroundColor(.red)
         .padding()
     }
 }
+
+struct CardView: View {
+    var body: some View {
+        ZStack {
+            let shape = RoundedRectangle(cornerRadius: 20)
+            shape.fill(.white)
+            shape.strokeBorder(lineWidth: 3)
+            Text("🥸").font(.largeTitle)
+        }
+    }
+}
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
