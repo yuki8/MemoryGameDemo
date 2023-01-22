@@ -2,20 +2,26 @@
 //  ContentView.swift
 //  MemoryGameDemo
 //      View for MemoryGame --- MVVM(Model View ViewModel)
+//      - Keeps track of Model changes by adding @ObservedObject keyword to
+//        ViewModel which connects Model and View
 //  Created by Yuki Muto on 1/18/23.
 //
 
 import SwiftUI
 
 struct ContentView: View {
-    let viewModel: EmojiMemoryGame       // ViewModel connection
+    // Observe the change in viewModel
+    @ObservedObject var viewModel: EmojiMemoryGame
     
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
-                ForEach(viewModel.cards) {card in
+                ForEach(viewModel.cards) { card in
                     CardView(card: card)
                         .aspectRatio(2/3, contentMode: .fit)
+                        .onTapGesture {
+                            viewModel.choose(card)
+                        }
                 }
             }
         }
@@ -30,9 +36,11 @@ struct CardView: View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 20)
             if card.isFaceUp {
-                shape.fill(.white)
+                shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: 3)
-                Text(card.content).font(.largeTitle)
+                // ????(Weird) Adding text makes the zstack size changed.
+                // Adding .padding(any negative) fixed this. Try comment it out
+                Text(card.content).font(.largeTitle).padding(-1)
             } else {
                 shape.fill()
             }
