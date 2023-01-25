@@ -41,6 +41,8 @@ struct CardView: View {
                 // ????(Weird) Adding text makes the zstack size changed.
                 // Adding .padding(any negative) fixed this. Try comment it out
                 Text(card.content).font(.largeTitle).padding(-1)
+            } else if card.isMatched {
+                shape.opacity(0)
             } else {
                 shape.fill()
             }

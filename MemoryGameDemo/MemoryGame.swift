@@ -9,8 +9,11 @@ import Foundation
 
 // Generic type CardContent represents any type which could be shown on the face of cards.
 // They are provided by the function parameter passed in the initializer. -> see init()
-struct MemoryGame<CardContent>{
+struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: [Card]
+    
+    // keep tracks of one and only card which is faceUp -- can be nil
+    private var indexOfOneFaceUpCard: Int?
     
     init(numberOfPairsOfCards: Int, getCardContent: (Int) -> CardContent) {
         cards = [Card]()
@@ -19,27 +22,31 @@ struct MemoryGame<CardContent>{
             cards.append(Card(content: content, id: pairIndex * 2))
             cards.append(Card(content: content, id: pairIndex * 2 + 1))
         }
-        
     }
     
     // Game logic of MomoryGame
     // What to do if the card is chosen
     mutating func choose(_ card:Card) {
-//        if let chosenIndex = index(of: card) {
-        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id })  {
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }),
+           !cards[chosenIndex].isFaceUp, !cards[chosenIndex].isMatched {
+            if let indexOfFirstCard = indexOfOneFaceUpCard {
+                if cards[chosenIndex].content == cards[indexOfFirstCard].content {
+                    cards[chosenIndex].isMatched = true
+                    cards[indexOfFirstCard].isMatched = true
+                } else {
+                    
+                }
+                indexOfOneFaceUpCard = nil
+            } else {
+                for index in cards.indices {
+                    cards[index].isFaceUp = false
+                }
+                indexOfOneFaceUpCard = chosenIndex
+            }
+            
+            
             cards[chosenIndex].isFaceUp.toggle()
         }
-    }
-    
-    // Find the index of the given card from the set of cards.
-    // Card id is used to distinguish among them -- Array.firstIndex(where:)
-    func index(of card: Card) -> Int? {
-        for index in 0..<cards.count {
-            if cards[index].id == card.id {
-                return index
-            }
-        }
-        return nil
     }
     
     // A card has to be Identifiable from each other to distinguish to know
