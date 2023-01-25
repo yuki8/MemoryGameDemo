@@ -25,19 +25,21 @@ struct MemoryGame<CardContent>{
     // Game logic of MomoryGame
     // What to do if the card is chosen
     mutating func choose(_ card:Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
+//        if let chosenIndex = index(of: card) {
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id })  {
+            cards[chosenIndex].isFaceUp.toggle()
+        }
     }
     
     // Find the index of the given card from the set of cards.
-    // Card id is used to distinguish among them.
-    func index(of card: Card) -> Int {
+    // Card id is used to distinguish among them -- Array.firstIndex(where:)
+    func index(of card: Card) -> Int? {
         for index in 0..<cards.count {
             if cards[index].id == card.id {
                 return index
             }
         }
-        return 0
+        return nil
     }
     
     // A card has to be Identifiable from each other to distinguish to know
