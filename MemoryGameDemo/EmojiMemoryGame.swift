@@ -12,19 +12,24 @@
 import Foundation
 
 class EmojiMemoryGame: ObservableObject {
-    // Static to be accessible at initialization
-    private static let emojis = ["🍏", "🍓", "🫐", "🍒"]
+    static private var themes: Array<Theme<String>> = [
+        Theme(themeName: "Fruit", numberOfPairs: 5, themeColor: "red", source: ["🍏", "🍓", "🫐", "🍒"])
+    ]
     
     // Hide model and expose cards only
     @Published private var model: MemoryGame<String>
     var cards: [MemoryGame<String>.Card] {
         return model.cards
     }
+   
+    static func createMemoryGame(theme: Theme<String>) -> MemoryGame<String> {
+        return MemoryGame(numberOfPairsOfCards: theme.numberOfPairs) { pairIndex in
+            theme.themeCardContents[pairIndex]
+        }
+    }
     
     init() {
-        model = MemoryGame(numberOfPairsOfCards: 4) { pairIndex in
-            EmojiMemoryGame.emojis[pairIndex]
-        }
+        model = EmojiMemoryGame.createMemoryGame(theme: EmojiMemoryGame.themes[0])
     }
     
     // MARK: - Intents
