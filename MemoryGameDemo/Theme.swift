@@ -26,8 +26,15 @@ struct Theme<CardContent> {
         self.themeCardContents = Array(source.shuffled()[0..<self.numberOfPairs])
     }
     
-    // if number of pairs to play is not specified, all source of CardContent is used
-    init(themeName: String, themeColor: String, source: Array<CardContent>) {
-        self.init(themeName: themeName, numberOfPairs: source.count, themeColor: themeColor, source: source)
+    // If number of pairs to play is not specified, all source of CardContent is used.
+    // If randomNumverOfPairs is true, random number(at least 2) of pairs will be assigned instead.
+    init(themeName: String, themeColor: String, source: Array<CardContent>, randomNumberOfPairs: Bool = false) {
+        var numberOfPairs: Int
+        if randomNumberOfPairs {
+            numberOfPairs = Int.random(in: 2...source.count)
+        } else {
+            numberOfPairs = source.count
+        }
+        self.init(themeName: themeName, numberOfPairs: numberOfPairs, themeColor: themeColor, source: source)
     }
 }
