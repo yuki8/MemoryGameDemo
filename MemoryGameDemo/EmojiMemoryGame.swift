@@ -22,9 +22,10 @@ class EmojiMemoryGame: ObservableObject {
         Theme(themeName: "Sweets", themeColor: "red", source: ["🍡", "🧁", "🍰", "🍩", "🍪", "🍦", "🍭"])
     ]
     
-    private let colorConversion = ["red": Color.red, "orange": Color.orange, "green": Color.green, "blue": Color.blue,
+    private let colorConversion = [ "red": Color.red, "orange": Color.orange, "green": Color.green, "blue": Color.blue,
                  "brown": Color.brown, "yellow": Color.yellow, "black": Color.black, "cyan": Color.cyan,
-                 "pink": Color.pink, "purple": Color.purple, "gray": Color.gray, "mint": Color.mint]
+                 "pink": Color.pink, "purple": Color.purple, "gray": Color.gray, "mint": Color.mint
+    ]
     
     // Hide model and expose cards only
     @Published private var model: MemoryGame<String>
