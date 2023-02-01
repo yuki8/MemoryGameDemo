@@ -15,7 +15,17 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Text(viewModel.gameTheme.themeName).font(.largeTitle)
+            HStack {
+                Spacer()
+                Text(viewModel.gameTheme.themeName).font(.largeTitle)
+                Spacer()
+                if viewModel.score >= 0 {
+                    Text("\(viewModel.score)").font(.largeTitle).foregroundColor(.green)
+                } else {
+                    Text("\(viewModel.score)").font(.largeTitle).foregroundColor(.red)
+                }
+                Spacer()
+            }
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach(viewModel.cards) { card in

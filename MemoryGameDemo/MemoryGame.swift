@@ -11,6 +11,7 @@ import Foundation
 // They are provided by the function parameter passed in the initializer. -> see init()
 struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: [Card]
+    private(set) var score = 0
     
     // keep tracks of one and only card which is faceUp -- can be nil
     private var indexOfOneFaceUpCard: Int?
@@ -31,21 +32,28 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id }),
            !cards[chosenIndex].isFaceUp, !cards[chosenIndex].isMatched {
             if let indexOfFirstCard = indexOfOneFaceUpCard {
+                // If cards match
                 if cards[chosenIndex].content == cards[indexOfFirstCard].content {
                     cards[chosenIndex].isMatched = true
                     cards[indexOfFirstCard].isMatched = true
-                } else {
-                    
+                    score += 2
+                } else {    // Did not match
+                    if cards[chosenIndex].isSeen {
+                        score -= 1
+                    }
+                    if cards[indexOfFirstCard].isSeen {
+                        score -= 1
+                    }
                 }
                 indexOfOneFaceUpCard = nil
+                cards[chosenIndex].isSeen = true
+                cards[indexOfFirstCard].isSeen = true
             } else {
                 for index in cards.indices {
                     cards[index].isFaceUp = false
                 }
                 indexOfOneFaceUpCard = chosenIndex
             }
-            
-            
             cards[chosenIndex].isFaceUp.toggle()
         }
     }
@@ -55,6 +63,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     struct Card: Identifiable {
         var isFaceUp: Bool = false
         var isMatched: Bool = false
+        var isSeen: Bool = false
         var content: CardContent
         var id: Int
     }

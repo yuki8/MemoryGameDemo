@@ -27,10 +27,13 @@ class EmojiMemoryGame: ObservableObject {
                  "pink": Color.pink, "purple": Color.purple, "gray": Color.gray, "mint": Color.mint
     ]
     
-    // Hide model and expose cards only
+    // Hide model and expose cards and score only
     @Published private var model: MemoryGame<String>
     var cards: [MemoryGame<String>.Card] {
         return model.cards
+    }
+    var score: Int {
+        return model.score
     }
     @Published var gameTheme: Theme<String>
     
