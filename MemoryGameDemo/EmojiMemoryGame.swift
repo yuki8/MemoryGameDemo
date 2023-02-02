@@ -12,12 +12,15 @@
 import Foundation
 
 class EmojiMemoryGame: ObservableObject {
+    // Alias for long name -- clean up
+    typealias Card = MemoryGame<String>.Card
+    
     // Static to be accessible at initialization
     private static let emojis = ["🍏", "🍓", "🫐", "🍒"]
     
     // Hide model and expose cards only
     @Published private var model: MemoryGame<String>
-    var cards: [MemoryGame<String>.Card] {
+    var cards: [Card] {
         return model.cards
     }
     
@@ -29,7 +32,7 @@ class EmojiMemoryGame: ObservableObject {
     
     // MARK: - Intents
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
 }
