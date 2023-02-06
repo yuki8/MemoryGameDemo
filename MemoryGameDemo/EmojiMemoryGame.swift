@@ -16,7 +16,7 @@ class EmojiMemoryGame: ObservableObject {
     typealias Card = MemoryGame<String>.Card
     
     // Static to be accessible at initialization
-    private static let emojis = ["🍏", "🍓", "🫐", "🍒"]
+    private static let emojis = ["🍏", "🍓", "🫐", "🍒", "🍑", "🥝", "🍇", "🍉", "🍋"]
     
     // Hide model and expose cards only
     @Published private var model: MemoryGame<String>
@@ -25,7 +25,7 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     init() {
-        model = MemoryGame(numberOfPairsOfCards: 4) { pairIndex in
+        model = MemoryGame(numberOfPairsOfCards: 6) { pairIndex in
             EmojiMemoryGame.emojis[pairIndex]
         }
     }
